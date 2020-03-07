@@ -15,6 +15,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'App\Http\Controllers';
+    protected $apiNamespace = 'App\Http\Controllers\API';
+    protected $cmsNamespace = 'App\Http\Controllers\CMS';
 
     /**
      * The path to the "home" route for your application.
@@ -46,6 +48,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapCMSRoutes();
         //
     }
 
@@ -74,7 +77,22 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
              ->middleware('api')
-             ->namespace($this->namespace)
+             ->namespace($this->apiNamespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "cms" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapCMSRoutes()
+    {
+        Route::prefix('cms')
+            ->middleware('cms')
+            ->namespace($this->cmsNamespace)
+            ->group(base_path('routes/cms.php'));
     }
 }
