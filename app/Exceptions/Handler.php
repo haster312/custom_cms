@@ -2,18 +2,21 @@
 
 namespace App\Exceptions;
 
+use App\Http\Traits\CustomResponse;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use CustomResponse;
     /**
      * A list of the exception types that are not reported.
      *
      * @var array
      */
     protected $dontReport = [
-        //
+        JsonResponse::class  //
     ];
 
     /**
@@ -29,27 +32,34 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Throwable  $exception
+     * @param  \Exception  $exception
      * @return void
-     *
-     * @throws \Exception
      */
-    public function report(Throwable $exception)
+    public function report(\Throwable $exception)
     {
         parent::report($exception);
     }
 
+
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $exception
+     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, \Throwable $exception)
     {
+        if ($exception instanceof JsonResponse) {
+            $data = $exception->data;
+            $code = $exception->code;
+            return response()->json($data, $code);
+        }
+
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        $this->error(config('API.Message.Unauthenticated'), 401);
     }
 }
