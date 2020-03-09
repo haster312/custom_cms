@@ -5,9 +5,8 @@ namespace App\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class BlogCategory extends Model
+class BlogCategory extends BaseModel
 {
-    use BaseModel;
     protected $table = "blog_category";
     protected $fillable = ['name', 'icon'];
 }

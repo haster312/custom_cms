@@ -3,37 +3,27 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-trait BaseModel
+class BaseModel extends Model
 {
     public function setCreatedAtAttribute($value)
     {
-        if (is_object($value)) {
-            $this->attributes['created_at'] = $value->getTimestamp();
-        } else {
-            $this->attributes['created_at'] = strtotime($value);
-        }
+        $value = $value->timestamp;
+        $this->attributes['created_at'] = $value;
     }
 
     public function setUpdatedAtAttribute($value)
     {
-        if (is_object($value)) {
-            $this->attributes['updated_at'] = $value->getTimestamp();
-        } else {
-            $this->attributes['updated_at'] = strtotime($value);
-        }
-
+        $value = $value->timestamp;
+        $this->attributes['updated_at'] = $value;
     }
 
     public function setDeletedAtAttribute($value)
     {
-        if (is_object($value)) {
-            $this->attributes['deleted_at'] = $value->getTimestamp();
-        } else {
-            $this->attributes['deleted_at'] = strtotime($value);
-        }
+        $value = $value->timestamp;
+        $this->attributes['deleted_at'] = $value;
     }
 
     public function getCreatedAtAttribute($value)

@@ -19,9 +19,16 @@ class BlogCategoryController extends Controller
         $this->blogService = $blogService;
     }
 
-    public function list()
+    public function paginate()
     {
 
+    }
+
+    public function list()
+    {
+        $categories = $this->blogService->blogCategoryRepo->getAll();
+
+        $this->success($categories);
     }
 
     /**
