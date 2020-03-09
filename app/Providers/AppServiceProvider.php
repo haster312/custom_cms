@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        header('Access-Control-Allow-Origin: http://localhost:9000');
     }
 
     /**

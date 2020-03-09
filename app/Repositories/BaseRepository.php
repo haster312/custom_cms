@@ -39,6 +39,18 @@ abstract class BaseRepository
         return $this->model;
     }
 
+    public function getModelObject()
+    {
+        $fillable = $this->model->getFillable();
+        $modelObject = [];
+
+        foreach ($fillable as $field) {
+            $modelObject[$field] = null;
+        }
+
+        return $modelObject;
+    }
+
     /**
      * Create new model
      * @param $data

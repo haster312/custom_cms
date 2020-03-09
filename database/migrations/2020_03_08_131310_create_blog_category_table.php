@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImagesTable extends Migration
+class CreateBlogCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('blog_category', function (Blueprint $table) {
             $table->id();
-            $table->text('main');
-            $table->text('thumbnail')->nullable();
-            $table->string('mime')->nullable();
+            $table->string('name');
+            $table->integer('icon')->nullable();
             $table->integer('created_at');
             $table->integer('updated_at');
+        });
+
+        Schema::table('blog_category', function (Blueprint $table) {
+            $table->foreign('icon')
+                ->references('id')->on('images');
         });
     }
 
@@ -30,6 +34,6 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('img');
+        Schema::dropIfExists('blog_category');
     }
 }

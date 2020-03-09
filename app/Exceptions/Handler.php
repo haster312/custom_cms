@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Http\Traits\CustomResponse;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -20,7 +21,8 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
+     * A list of the inpu
+     * ts that are never flashed for validation exceptions.
      *
      * @var array
      */
@@ -53,6 +55,10 @@ class Handler extends ExceptionHandler
             $data = $exception->data;
             $code = $exception->code;
             return response()->json($data, $code);
+        }
+
+        if ($exception instanceof ModelNotFoundException && $request->wantsJson()) {
+            return response()->json(['message' => 'Not Found!'], 404);
         }
 
         return parent::render($request, $exception);

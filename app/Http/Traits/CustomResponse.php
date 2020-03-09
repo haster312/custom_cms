@@ -21,8 +21,8 @@ trait CustomResponse
 
         $response = [
             'success' => true,
-            'data' => $data['result'],
-            'current' => $data['current'],
+            'data' => $data['data'],
+            'current' => $data['current_page'],
             'total' => $data['total'],
             'message' => $message
         ];

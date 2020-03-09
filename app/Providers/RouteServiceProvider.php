@@ -44,11 +44,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+//        $this->mapApiRoutes();
 
         $this->mapWebRoutes();
 
-//        $this->mapCMSRoutes();
+        $this->mapCMSRoutes();
         //
     }
 
@@ -91,7 +91,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapCMSRoutes()
     {
         Route::prefix('cms')
-            ->middleware('cms')
             ->namespace($this->cmsNamespace)
             ->group(base_path('routes/cms.php'));
     }
